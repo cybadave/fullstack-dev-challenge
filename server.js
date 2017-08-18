@@ -13,12 +13,13 @@ if (process.env.NODE_ENV === 'production') {
 
 app.get('/', function(req, res) {
   const principal = req.query.principal;
+  const periodicDeposit = req.query.periodicDeposit;
   const compoundingPeriodsPerYear = req.query.compoundingPeriodsPerYear;
   const interestRate = req.query.interestRate;
   const currency = req.query.currency;
   fetch('http://api.fixer.io/latest?base=GBP', { method: 'get' }).then((response) => response.json())
     .then((results) => {
-      const data = iCalc.montlyRollup(principal, compoundingPeriodsPerYear, interestRate);
+      const data = iCalc.montlyRollup(principal, periodicDeposit, compoundingPeriodsPerYear, interestRate);
       const multiplier = (currency === 'GBP') ? 1 : results.rates[currency];
       const transformedData = data.map((dat, i) => ({ month: i+1, amount: dat * multiplier }));
       res.send({
