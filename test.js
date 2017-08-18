@@ -9,6 +9,6 @@ describe('The compound interest with recurring deposit function', () => {
 
 describe('The rollup function', () => {
   it('returns an aray of interest calculations over 50 years', () => {
-    assert.equal(600, iCalc.montlyRollup(1,12,0.01, 50).length);
+    assert.equal(600, iCalc.montlyRollup(1,12,0.01).length);
   });
 });
