@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import CurrencyInput from './components/CurrencyInput'
 import SliderInput from './components/SliderInput'
 import DisplayGraph from './components/DisplayGraph'
+import PeriodSelector from './components/PeriodSelector'
+import CurrencySelector from './components/CurrencySelector'
 import './App.css';
 
 class App extends Component {
@@ -18,8 +20,17 @@ class App extends Component {
 					<p className="input-label">How much will you save each month?</p>
 					<CurrencyInput defaultValue={0}/>
 
+					<p className="input-label">How many times per year is interest compounded?</p>
+					<PeriodSelector interval={12}/>
+
+					<p className="input-label">What currency would you like your results in?</p>
+					<CurrencySelector currency="GPB" currencies={['GBP','USD','ZAR']}/>
+
 					<p className="input-label">How much interest will you earn per year?</p>
 					<SliderInput defaultValue={4}/>
+
+
+
 				</div>
 				<div className="financial-display">
 					{/*We have included some sample data here, you will need to replace this
