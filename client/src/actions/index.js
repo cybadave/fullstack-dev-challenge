@@ -26,15 +26,16 @@ export const loadData = (principal, periodicDeposit, compoundingPeriodsPerYear, 
       .then((response) => response.json())
       .then((results) => {
         dispatch(addData(results.data));
-        dispatch(addCurrencies(results.currencies));
-      });
+        //dispatch(addCurrencies(results.currencies));
+      })
+      .catch((error) => console.log(error));
 
-export const memoizeloadData = memoize({ ttl: 100 }, loadData);
+export const memoizeloadData = memoize({ ttl: 1000 }, loadData);
 
 export const updateInputGetData = (inputs) => {
   return (dispatch, getState) => {
     dispatch(updateInput(inputs));
     const state = getState().inputs;
-    loadData(state.principal, state.periodicDeposit, state.compoundingPeriodsPerYear, state.interestRate, state.currency);
+    dispatch(memoizeloadData(state.principal, state.periodicDeposit, state.compoundingPeriodsPerYear, state.interestRate, state.currency));
   };
 };

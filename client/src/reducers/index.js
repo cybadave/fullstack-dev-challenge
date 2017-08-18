@@ -3,7 +3,7 @@ import currencies from './currencies';
 import data from './data';
 import inputs from './inputs';
 
-const movieApp = combineReducers({
+const calcApp = combineReducers({
   currencies,
   data,
   inputs

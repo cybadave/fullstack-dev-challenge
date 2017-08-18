@@ -7,4 +7,4 @@ const currencies = (state = ['GBP','AUD','BGN','BRL','CAD','CHF','CNY','CZK','DK
   }
 };
 
-export default data
+export default currencies
