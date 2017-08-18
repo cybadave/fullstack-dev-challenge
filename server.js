@@ -23,7 +23,7 @@ app.get('/', function(req, res) {
       const transformedData = data.map((dat, i) => ({ month: i+1, amount: dat * multiplier }));
       res.send({
         currency: currency,
-        currencies: Object.keys(results.rates),
+        currencies: Object.keys(results.rates).unshift(currency),
         data: transformedData,
       });
     });
