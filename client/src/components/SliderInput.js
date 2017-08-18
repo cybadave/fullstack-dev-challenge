@@ -1,24 +1,18 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { updateInputGetData } from '../actions'
 import PropTypes from 'prop-types'
 import './SliderInput.css'
 
-export default class SliderInput extends Component {
-
-	constructor(props) {
-		super(props)
-
-		this.state = {
-			value: props.defaultValue
-		}
-	}
+class SliderInput extends Component {
 
 	handleChange(e) {
-		const value = e.target.value
-		this.setState({value})
+		const value = e.target.value;
+    this.props.update({ interestRate: (e.target.value / 100) });
 	}
 
 	render() {
-		const { value } = this.state
+		const { value } = this.props;
 
 		return (
 			<div className="fmz-slider">
@@ -35,5 +29,17 @@ export default class SliderInput extends Component {
 }
 
 SliderInput.propTypes = {
-	defaultValue: PropTypes.number
+	value: PropTypes.number
 }
+
+const mapStateToProps = state =>
+  ({
+    value: (state.inputs.interestRate * 100),
+  });
+
+const mapDispatchToProps = dispatch =>
+  ({
+    update: (rate) => dispatch(updateInputGetData(rate)),
+  });
+
+export default connect(mapStateToProps, mapDispatchToProps)(SliderInput);
