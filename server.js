@@ -1,4 +1,5 @@
 const express = require('express');
+const fetch = require('node-fetch');
 const iCalc = require('./interestCalculator');
 
 const app = express();
@@ -14,7 +15,18 @@ app.get('/', function(req, res) {
   const principal = req.query.principal;
   const compoundingPeriodsPerYear = req.query.compoundingPeriodsPerYear;
   const interestRate = req.query.interestRate;
-  res.send(iCalc.montlyRollup(principal, compoundingPeriodsPerYear, interestRate));
+  const currency = req.query.currency;
+  fetch('http://api.fixer.io/latest?base=GBP', { method: 'get' }).then((response) => response.json())
+    .then((results) => {
+      const data = iCalc.montlyRollup(principal, compoundingPeriodsPerYear, interestRate);
+      const multiplier = (currency === 'GBP') ? 1 : results.rates[currency];
+      const transformedData = data.map((dat, i) => ({ month: i+1, amount: dat * multiplier }));
+      res.send({
+        currency: currency,
+        currencies: Object.keys(results.rates),
+        data: transformedData,
+      });
+    });
 });
 
 app.listen(app.get('port'), () => {
